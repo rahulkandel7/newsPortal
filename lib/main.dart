@@ -3,11 +3,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sanchar_dainek/features/home/presentation/screens/homepage.dart';
 
 import '../screens/about_screen.dart';
-import '../screens/bookmark_screen.dart';
-import '../screens/drawerZoom.dart';
-import '../screens/news_show.dart';
+import 'features/bookmark/presentation/screens/bookmark_screen.dart';
+import 'features/home/presentation/screens/news_show.dart';
 
 void main() {
   runApp(
@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
       ),
       home: SplashScreen(),
       routes: {
-        DrawerZoom.routeName: (ctx) => const DrawerZoom(),
+        HomePage.routeName: (ctx) => const HomePage(),
         NewsShow.routeName: (ctx) => NewsShow(),
         BookmarkScreen.routeName: (ctx) => BookmarkScreen(),
         AboutScreen.routeName: (ctx) => AboutScreen(),
@@ -149,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   _navigation(BuildContext context) =>
-      Navigator.of(context).popAndPushNamed(DrawerZoom.routeName);
+      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
 
   @override
   void dispose() {

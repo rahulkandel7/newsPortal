@@ -8,7 +8,7 @@ class BookmarkList extends StatelessWidget {
   final String image;
   final String description;
 
-  BookmarkList({
+  const BookmarkList({
     required this.id,
     required this.title,
     required this.image,

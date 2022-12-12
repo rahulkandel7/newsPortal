@@ -1,4 +1,4 @@
-final String table = "tbl_bookmark";
+const String table = "tbl_bookmark";
 
 class BookmarkFileds {
   static final List<String> values = [
@@ -11,13 +11,13 @@ class BookmarkFileds {
     views
   ];
 
-  static final String id = 'id';
-  static final String title = 'title';
-  static final String description = 'description';
-  static final String categoryName = 'categoryName';
-  static final String image = 'image';
-  static final String date = 'date';
-  static final String views = 'views';
+  static const String id = 'id';
+  static const String title = 'title';
+  static const String description = 'description';
+  static const String categoryName = 'categoryName';
+  static const String image = 'image';
+  static const String date = 'date';
+  static const String views = 'views';
 }
 
 class Bookmark {

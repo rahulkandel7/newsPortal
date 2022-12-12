@@ -26,10 +26,10 @@ class BookmarkDatabase {
   }
 
   Future _createDB(Database db, int version) async {
-    final idType = 'INTEGER PRIMARY KEY ';
-    final stringType = 'TEXT NOT NULL';
-    final imageType = 'Uint8List NOT NULL';
-    final intType = 'INTEGER NOT NULL';
+    const idType = 'INTEGER PRIMARY KEY ';
+    const stringType = 'TEXT NOT NULL';
+    const imageType = 'Uint8List NOT NULL';
+    const intType = 'INTEGER NOT NULL';
     await db.execute('''
       CREATE TABLE $table (
         ${BookmarkFileds.id} $idType,

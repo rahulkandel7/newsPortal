@@ -1,13 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:sanchar_dainek/features/home/presentation/screens/homepage.dart';
 
-import '../database/bookmark_database.dart';
-import '../models/bookmark.dart';
-import '../screens/drawerZoom.dart';
+import '../../data/data_sources/bookmark_database.dart';
+import '../../data/models/bookmark.dart';
 
 class BookmarkShow extends StatefulWidget {
   final int id;
-  BookmarkShow({required this.id});
+  const BookmarkShow({required this.id});
 
   @override
   State<BookmarkShow> createState() => _BookmarkShowState();
@@ -80,7 +80,7 @@ class _BookmarkShowState extends State<BookmarkShow> {
                       children: [
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.date_range,
                               size: 18,
                               color: Colors.red,
@@ -89,8 +89,8 @@ class _BookmarkShowState extends State<BookmarkShow> {
                               padding: const EdgeInsets.only(left: 5.0),
                               child: Text(
                                 bookmark.date,
-                                style:
-                                    TextStyle(fontSize: 14, color: Colors.red),
+                                style: const TextStyle(
+                                    fontSize: 14, color: Colors.red),
                               ),
                             )
                           ],
@@ -126,7 +126,7 @@ class _BookmarkShowState extends State<BookmarkShow> {
                                       ),
                                     );
                                     Navigator.of(context).pushReplacementNamed(
-                                        DrawerZoom.routeName);
+                                        HomePage.routeName);
                                   },
                                 ).onError((error, stackTrace) {
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -156,7 +156,7 @@ class _BookmarkShowState extends State<BookmarkShow> {
                                   );
                                 });
                               },
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.bookmark,
                                 color: Colors.red,
                               ),

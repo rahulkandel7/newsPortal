@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../database/bookmark_database.dart';
-import '../models/bookmark.dart';
+import '../../data/data_sources/bookmark_database.dart';
+import '../../data/models/bookmark.dart';
 import '../widgets/bookmark_list.dart';
 
 class BookmarkScreen extends StatefulWidget {

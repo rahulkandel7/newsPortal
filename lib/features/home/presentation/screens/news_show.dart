@@ -3,15 +3,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sanchar_dainek/controllers/CategoryController.dart';
+import 'package:sanchar_dainek/constants/app_constants.dart';
+import 'package:sanchar_dainek/features/home/presentation/controllers/newsController.dart';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-import '../controllers/NewsController.dart';
-import '../database/bookmark_database.dart';
-import '../models/bookmark.dart';
+import '../../../bookmark/data/data_sources/bookmark_database.dart';
+import '../../../bookmark/data/models/bookmark.dart';
 
 class NewsShow extends ConsumerStatefulWidget {
   static const routeName = '/news-show';
@@ -70,25 +70,25 @@ class _NewsShowState extends ConsumerState<NewsShow> {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context).size;
     final id = ModalRoute.of(context)?.settings.arguments as int;
-    final news = ref.read(newsProvider.notifier).findNews(id);
+    final news = ref.read(newsControllerProvider.notifier).findNews(id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          news.news_heading,
+          news.newsHeading,
         ),
         elevation: 0,
         actions: [
           Platform.isAndroid
               ? IconButton(
                   onPressed: () {
-                    isPlaying ? stop() : speak(news.news_content);
+                    isPlaying ? stop() : speak(news.newsContent);
                   },
                   icon: Icon(
                     isPlaying ? Icons.stop : Icons.play_circle_fill,
                   ),
                 )
-              : SizedBox(),
+              : const SizedBox(),
         ],
       ),
       body: SingleChildScrollView(
@@ -103,8 +103,7 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                   bottomRight: Radius.circular(3),
                 ),
                 child: CachedNetworkImage(
-                  imageUrl:
-                      'https://sanchardainik.com/images/news/${news.photopath}',
+                  imageUrl: '${AppConstant.imageUrl}${news.photopath}',
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Center(
                     child: Image.asset('assets/images/logo.jpeg'),
@@ -118,7 +117,7 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                 vertical: mediaQuery.height * 0.02,
               ),
               child: Text(
-                news.news_heading,
+                news.newsHeading,
                 style: Theme.of(context).textTheme.headline1,
               ),
             ),
@@ -142,7 +141,7 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                         Padding(
                           padding: const EdgeInsets.only(left: 8.0),
                           child: Text(
-                            news.news_date,
+                            news.newsDate,
                             style: Theme.of(context).textTheme.headline5,
                           ),
                         ),
@@ -157,10 +156,10 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                             onPressed: () async {
                               final bookmark = Bookmark(
                                 id: news.id,
-                                title: news.news_heading,
-                                description: news.news_content,
+                                title: news.newsHeading,
+                                description: news.newsContent,
                                 image: news.photopath,
-                                date: news.news_date,
+                                date: news.newsDate,
                                 views: news.views,
                               );
 
@@ -236,7 +235,7 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                             child: IconButton(
                               onPressed: () {
                                 Share.share(
-                                  "https://www.sanchardainik.com/news/${news.id}/${news.category_id}#readnews",
+                                  "https://www.sanchardainik.com/news/${news.id}/${news.categoryId}#readnews",
                                 );
                               },
                               icon: const Icon(
@@ -259,7 +258,7 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                 vertical: mediaQuery.height * 0.02,
               ),
               child: Text(
-                news.news_content,
+                news.newsContent,
                 textAlign: TextAlign.justify,
                 style: Theme.of(context).textTheme.headline2,
               ),
