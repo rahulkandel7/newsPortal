@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sanchar_dainek/features/home/presentation/controllers/categoryController.dart';
 import 'package:sanchar_dainek/features/home/presentation/controllers/newsController.dart';
+import 'package:sanchar_dainek/shimmers/newsShimmer.dart';
 import 'package:sanchar_dainek/widgets/menuscreen.dart';
 
 import '../../data/models/category.dart';
@@ -105,8 +106,9 @@ class HomePage extends ConsumerWidget {
                         );
                       },
                       error: (error, stackTrace) => Text(error.toString()),
-                      loading: () => const Center(
-                        child: CircularProgressIndicator(),
+                      loading: () => ListView.builder(
+                        itemCount: 10,
+                        itemBuilder: (ctx, index) => const NewsShimmer(),
                       ),
                     ),
               ),
