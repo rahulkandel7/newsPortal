@@ -4,17 +4,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sanchar_dainek/constants/app_constants.dart';
+import 'package:sanchar_dainek/features/bookmark/data/data_sources/bookmark_database.dart';
+import 'package:sanchar_dainek/features/home/presentation/controllers/categoryController.dart';
 import 'package:sanchar_dainek/features/home/presentation/controllers/newsController.dart';
 
 import 'package:share_plus/share_plus.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-import '../../../bookmark/data/data_sources/bookmark_database.dart';
 import '../../../bookmark/data/models/bookmark.dart';
 
 class NewsShow extends ConsumerStatefulWidget {
   static const routeName = '/news-show';
+
+  const NewsShow({Key? key}) : super(key: key);
 
   @override
   _NewsShowState createState() => _NewsShowState();
@@ -42,7 +45,6 @@ class _NewsShowState extends ConsumerState<NewsShow> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initializeTts();
   }
@@ -61,7 +63,6 @@ class _NewsShowState extends ConsumerState<NewsShow> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _flutterTts.stop();
   }
@@ -71,6 +72,11 @@ class _NewsShowState extends ConsumerState<NewsShow> {
     final mediaQuery = MediaQuery.of(context).size;
     final id = ModalRoute.of(context)?.settings.arguments as int;
     final news = ref.read(newsControllerProvider.notifier).findNews(id);
+    final category = ref
+        .read(categoryControllerProvider.notifier)
+        .findCategory(news.categoryId);
+
+    final bookmark = BookmarkDataSource.getBookmark().get(news.id);
 
     return Scaffold(
       appBar: AppBar(
@@ -154,18 +160,16 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                         children: [
                           IconButton(
                             onPressed: () async {
-                              final bookmark = Bookmark(
-                                id: news.id,
-                                title: news.newsHeading,
-                                description: news.newsContent,
-                                image: news.photopath,
-                                date: news.newsDate,
-                                views: news.views,
-                              );
-
-                              await BookmarkDatabase.instance
-                                  .create(bookmark)
-                                  .then(
+                              final bookmark = Bookmark()
+                                ..id = news.id
+                                ..categoryName = category.name
+                                ..date = news.newsDate
+                                ..description = news.newsContent
+                                ..image = news.photopath
+                                ..title = news.newsHeading
+                                ..views = news.views;
+                              final box = BookmarkDataSource.getBookmark();
+                              box.put(news.id, bookmark).then(
                                 (value) {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     const SnackBar(
@@ -189,6 +193,7 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                                       behavior: SnackBarBehavior.floating,
                                     ),
                                   );
+                                  setState(() {});
                                 },
                               ).onError((error, stackTrace) {
                                 ScaffoldMessenger.of(context).showSnackBar(
@@ -219,8 +224,14 @@ class _NewsShowState extends ConsumerState<NewsShow> {
                             },
                             icon: Icon(
                               Platform.isAndroid
-                                  ? Icons.bookmark
-                                  : CupertinoIcons.bookmark_fill,
+                                  ? bookmark != null
+                                      ? Icons.bookmark
+                                      : Icons.bookmark_add_outlined
+                                  : bookmark != null
+                                      ? CupertinoIcons.bookmark_fill
+                                      : CupertinoIcons.bookmark,
+                              color:
+                                  bookmark != null ? Colors.red : Colors.black,
                             ),
                           ),
                           Container(

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class AboutScreen extends StatelessWidget {
   static const routeName = '/about-us';
 
+  const AboutScreen({Key? key}) : super(key: key);
+
   Widget info(BuildContext context, String title, String value) {
     return Padding(
       padding: EdgeInsets.only(

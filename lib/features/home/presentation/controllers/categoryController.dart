@@ -14,6 +14,10 @@ class CategoryController extends StateNotifier<AsyncValue<List<Category>>> {
             AsyncError(error.message, StackTrace.fromString(error.toString())),
         (success) => state = AsyncData(success));
   }
+
+  Category findCategory(int id) {
+    return state.value!.firstWhere((element) => element.id == id);
+  }
 }
 
 final categoryControllerProvider =

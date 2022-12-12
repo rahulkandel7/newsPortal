@@ -15,13 +15,14 @@ class NewsList extends StatelessWidget {
   final int views;
 
   const NewsList({
+    Key? key,
     required this.id,
     required this.title,
     required this.description,
     required this.image,
     required this.date,
     required this.views,
-  });
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

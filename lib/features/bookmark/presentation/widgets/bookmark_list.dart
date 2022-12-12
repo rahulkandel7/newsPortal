@@ -9,11 +9,12 @@ class BookmarkList extends StatelessWidget {
   final String description;
 
   const BookmarkList({
+    Key? key,
     required this.id,
     required this.title,
     required this.image,
     required this.description,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

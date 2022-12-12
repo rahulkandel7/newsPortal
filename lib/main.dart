@@ -3,13 +3,20 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sanchar_dainek/features/bookmark/data/models/bookmark.dart';
+
 import 'package:sanchar_dainek/features/home/presentation/screens/homepage.dart';
 
 import '../screens/about_screen.dart';
 import 'features/bookmark/presentation/screens/bookmark_screen.dart';
 import 'features/home/presentation/screens/news_show.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(BookmarkAdapter());
+  await Hive.openBox<Bookmark>('bookmarks');
   runApp(
     const ProviderScope(child: MyApp()),
   );
@@ -100,12 +107,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
       routes: {
         HomePage.routeName: (ctx) => const HomePage(),
         NewsShow.routeName: (ctx) => NewsShow(),
-        BookmarkScreen.routeName: (ctx) => BookmarkScreen(),
-        AboutScreen.routeName: (ctx) => AboutScreen(),
+        BookmarkScreen.routeName: (ctx) => const BookmarkScreen(),
+        AboutScreen.routeName: (ctx) => const AboutScreen(),
       },
     );
   }
@@ -114,6 +121,8 @@ class MyApp extends StatelessWidget {
 //Splash Screen
 
 class SplashScreen extends StatefulWidget {
+  const SplashScreen({Key? key}) : super(key: key);
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }

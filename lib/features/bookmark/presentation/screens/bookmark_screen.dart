@@ -1,64 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sanchar_dainek/features/bookmark/data/data_sources/bookmark_database.dart';
+import 'package:sanchar_dainek/features/bookmark/data/models/bookmark.dart';
 
-import '../../data/data_sources/bookmark_database.dart';
-import '../../data/models/bookmark.dart';
 import '../widgets/bookmark_list.dart';
 
-class BookmarkScreen extends StatefulWidget {
+class BookmarkScreen extends StatelessWidget {
   static const routeName = '/bookmark';
 
-  @override
-  State<BookmarkScreen> createState() => _BookmarkScreenState();
-}
-
-class _BookmarkScreenState extends State<BookmarkScreen> {
-  late List<Bookmark> bookmark;
-
-  @override
-  void initState() {
-    super.initState();
-    refreshBookmark();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    refreshBookmark();
-  }
-
-  refreshBookmark() async {
-    bookmark = await BookmarkDatabase.instance.readAllBookmark();
-  }
+  const BookmarkScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Bookmark'),
-        elevation: 0,
-      ),
-      body: FutureBuilder(
-        future: refreshBookmark(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            return ListView.builder(
-              itemBuilder: (ctx, i) {
-                return BookmarkList(
-                  id: bookmark[i].id,
-                  title: bookmark[i].title,
-                  description: bookmark[i].description,
-                  image: bookmark[i].image,
-                );
-              },
-              itemCount: bookmark.length,
-            );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+        appBar: AppBar(
+          title: const Text('Bookmark'),
+          elevation: 0,
+        ),
+        body: ValueListenableBuilder<Box<Bookmark>>(
+            valueListenable: BookmarkDataSource.getBookmark().listenable(),
+            builder: ((context, box, _) {
+              final bookmarks = box.values.toList().cast<Bookmark>();
+              return bookmarks.isNotEmpty
+                  ? ListView.builder(
+                      itemBuilder: (ctx, i) {
+                        return BookmarkList(
+                          id: bookmarks[i].id,
+                          title: bookmarks[i].title,
+                          description: bookmarks[i].description,
+                          image: bookmarks[i].image,
+                        );
+                      },
+                      itemCount: bookmarks.length,
+                    )
+                  : const Center(
+                      child: Text('No News in Bookmark'),
+                    );
+            })));
   }
 }
