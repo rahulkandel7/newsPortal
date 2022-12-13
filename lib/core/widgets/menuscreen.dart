@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import '../screens/about_screen.dart';
-import '../features/bookmark/presentation/screens/bookmark_screen.dart';
+import '../../features/about/screen/about_screen.dart';
+import '../../features/bookmark/presentation/screens/bookmark_screen.dart';
 
 class MenuScreen extends StatelessWidget {
   const MenuScreen({Key? key}) : super(key: key);

@@ -8,7 +8,7 @@ import 'package:sanchar_dainek/features/bookmark/data/models/bookmark.dart';
 
 import 'package:sanchar_dainek/features/home/presentation/screens/homepage.dart';
 
-import '../screens/about_screen.dart';
+import 'features/about/screen/about_screen.dart';
 import 'features/bookmark/presentation/screens/bookmark_screen.dart';
 import 'features/home/presentation/screens/news_show.dart';
 
@@ -110,7 +110,7 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: {
         HomePage.routeName: (ctx) => const HomePage(),
-        NewsShow.routeName: (ctx) => NewsShow(),
+        NewsShow.routeName: (ctx) => const NewsShow(),
         BookmarkScreen.routeName: (ctx) => const BookmarkScreen(),
         AboutScreen.routeName: (ctx) => const AboutScreen(),
       },

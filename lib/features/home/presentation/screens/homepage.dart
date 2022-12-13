@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sanchar_dainek/features/home/presentation/controllers/categoryController.dart';
 import 'package:sanchar_dainek/features/home/presentation/controllers/newsController.dart';
 import 'package:sanchar_dainek/shimmers/newsShimmer.dart';
-import 'package:sanchar_dainek/widgets/menuscreen.dart';
+import 'package:sanchar_dainek/core/widgets/menuscreen.dart';
 
 import '../../data/models/category.dart';
 import '../../data/models/news.dart';
