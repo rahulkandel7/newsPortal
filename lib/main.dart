@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -8,6 +7,7 @@ import 'package:sanchar_dainek/features/bookmark/data/models/bookmark.dart';
 
 import 'package:sanchar_dainek/features/home/presentation/screens/homepage.dart';
 
+import 'core/screens/splashScreen.dart';
 import 'features/about/screen/about_screen.dart';
 import 'features/bookmark/presentation/screens/bookmark_screen.dart';
 import 'features/home/presentation/screens/news_show.dart';
@@ -114,110 +114,6 @@ class MyApp extends StatelessWidget {
         BookmarkScreen.routeName: (ctx) => const BookmarkScreen(),
         AboutScreen.routeName: (ctx) => const AboutScreen(),
       },
-    );
-  }
-}
-
-//Splash Screen
-
-class SplashScreen extends StatefulWidget {
-  const SplashScreen({Key? key}) : super(key: key);
-
-  @override
-  _SplashScreenState createState() => _SplashScreenState();
-}
-
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
-  late final AnimationController _controller = AnimationController(
-    duration: const Duration(
-      seconds: 2,
-    ),
-    vsync: this,
-  )..repeat(reverse: true);
-
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _controller,
-    curve: Curves.easeIn,
-  );
-
-  var _isInit = true;
-
-  @override
-  void didChangeDependencies() {
-    if (_isInit) {
-      Timer(
-        const Duration(
-          seconds: 3,
-        ),
-        () => _navigation(context),
-      );
-    }
-    _isInit = false;
-    super.didChangeDependencies();
-  }
-
-  _navigation(BuildContext context) =>
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        height: double.infinity,
-        color: Colors.white,
-        child: Center(
-          child: Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.3,
-              ),
-              FadeTransition(
-                opacity: _animation,
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  height: MediaQuery.of(context).size.height * 0.25,
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.36,
-              ),
-              Column(
-                children: const [
-                  Text(
-                    '#MadeInNepal',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    'By BITS',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 18,
-                      color: Colors.black,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
