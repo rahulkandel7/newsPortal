@@ -17,7 +17,7 @@ class HomePage extends ConsumerWidget {
 
   const HomePage({Key? key}) : super(key: key);
 
-  Widget title(String text, BuildContext context) {
+  Widget title(String text) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 8.0,
@@ -28,8 +28,7 @@ class HomePage extends ConsumerWidget {
     );
   }
 
-  Widget newsLists(BuildContext context, String catName, List<News> news,
-      List<Category> category) {
+  Widget newsLists(String catName, List<News> news, List<Category> category) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemBuilder: (ctx, i) {
@@ -89,7 +88,7 @@ class HomePage extends ConsumerWidget {
                     ),
                     tabs: categoryData
                         .map(
-                          (category) => title(category.name, context),
+                          (category) => title(category.name),
                         )
                         .toList(),
                   ),
@@ -100,8 +99,8 @@ class HomePage extends ConsumerWidget {
                         final categories = categoryData;
                         return TabBarView(
                           children: categoryData
-                              .map((category) => newsLists(
-                                  context, category.name, news, categories))
+                              .map((category) =>
+                                  newsLists(category.name, news, categories))
                               .toList(),
                         );
                       },
